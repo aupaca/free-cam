@@ -11,7 +11,7 @@ public:
 	World();
 	~World();
 	
-	void add(const Shape& object);
+	void add(Shape& object, const glm::vec3& pos);
 	
 	std::vector<Vertex>& vertexData();
 	std::vector<unsigned>& indexData();

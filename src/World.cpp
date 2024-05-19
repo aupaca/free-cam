@@ -11,8 +11,10 @@ World::~World()
 	
 }
 
-void World::add(const Shape& object)
+void World::add(Shape& object, const glm::vec3& pos)
 {
+	object.position(pos);
+	
 	int size = _vertexList.size();
 	for (unsigned index : object.indexData())
 	{

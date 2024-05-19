@@ -14,30 +14,12 @@ Game::Game()
 	_halfScreenWidth = anut::Engine::window->width() / 2.f;
 	_runFingerId = -1;
 	_camFingerId = -1;
-	
+	_updateFrame = true;
 	_freeCam.lookAt({0.f, 0.f, -1.f});
+	loadWorld();
 	
-	Box cube({1.f, 1.f, 1.f});
-	Pyramid pyramid({1.f, 1.f, 1.f});
-	World world;
-	
-	cube.position({0.f, 0.f, -4.f});
-	world.add(cube);
-	cube.position({2.f, 0.f, -4.f});
-	world.add(cube);
-	cube.position({5.f, 0.f, -2.f});
-	world.add(cube);
-	pyramid.position({5.f, 1.f, -2.f});
-	world.add(pyramid);
-	pyramid.position({2.f, 0.f, 2.f});
-	world.add(pyramid);
-	
-	_renderer.loadData(world.vertexData(), world.indexData());
-	
-	_proj = glm::perspective(glm::radians(45.f), anut::Engine::window->aspectRatio(), 0.1f, 100.f);
-	_renderer.setUniform("proj", _proj);
-	_renderer.setUniform("view", _freeCam.viewMatrix());
-	
+	glm::mat4 proj = glm::perspective(glm::radians(45.f), anut::Engine::window->aspectRatio(), 0.1f, 100.f);
+	_renderer.setUniform("proj", proj);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 }
@@ -47,9 +29,24 @@ Game::~Game()
 	
 }
 
+void Game::loadWorld()
+{
+	Box cube({1.f, 1.f, 1.f});
+	Pyramid pyramid({1.f, 1.f, 1.f});
+	World world;
+	world.add(cube, {0.f, 0.f, -4.f});
+	world.add(cube, {2.f, 0.f, -4.f});
+	world.add(cube, {5.f, 0.f, -2.f});
+	world.add(pyramid, {5.f, 1.f, -2.f});
+	world.add(pyramid, {2.f, 0.f, 2.f});
+	_renderer.loadData(world.vertexData(), world.indexData());
+}
+
 void Game::draw()
 {
+	_updateFrame = false;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	_renderer.setUniform("view", _freeCam.viewMatrix());
 	_renderer.draw();
 }
 
@@ -58,9 +55,8 @@ void Game::update(float dt)
 	if (_runFingerId != -1)
 	{
 		_freeCam.move(_velocity * dt * _freeCam.direction());
+		_updateFrame = true;
 	}
-	
-	_renderer.setUniform("view", _freeCam.viewMatrix());
 }
 
 void Game::onTouchEvent(const anut::MotionEvent& motion)
@@ -74,7 +70,7 @@ void Game::onTouchEvent(const anut::MotionEvent& motion)
 				if (_camFingerId == -1)
 				{
 					_camFingerId = motion.id;
-					_oldTouchPos = touchPos;
+					_prevTouchPos = touchPos;
 				}
 			}
 			else if (_runFingerId == -1)
@@ -87,8 +83,9 @@ void Game::onTouchEvent(const anut::MotionEvent& motion)
 		case anut::MotionEvent::ACTION_MOVE:
 			if (motion.id == _camFingerId)
 			{
-				_freeCam.rotate(_sensivity * (_oldTouchPos - touchPos));
-				_oldTouchPos = touchPos;
+				_freeCam.rotate(_sensivity * (_prevTouchPos - touchPos));
+				_prevTouchPos = touchPos;
+				_updateFrame = true;
 			}
 			break;
 			

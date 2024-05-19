@@ -20,8 +20,11 @@ void MainActivity::onTouchEvent(const anut::MotionEvent& motion)
 
 void MainActivity::onUpdate()
 {
-	_game->draw();
-	anut::Engine::window->display();
+	if (_game->needRedraw())
+	{
+		_game->draw();
+		anut::Engine::window->display();
+	}
 	_game->update(_timer.restart());
 }
 
