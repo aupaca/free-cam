@@ -2,7 +2,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <cmath>
 
-Camera::Camera(const glm::vec3 pos)
+Camera::Camera(const glm::vec3& pos)
 {
 	_position = pos;
 	_direction = glm::vec3(1.f, 0.f, 0.f);
