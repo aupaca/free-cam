@@ -21,8 +21,8 @@ void Camera::lookAt(const glm::vec3& target)
 	_direction = target - _position;
 	float length = glm::length(_direction);
 	_direction /= length;
-	_yall = atan(_direction.z / _direction.x);
-	_pitch = asin(_direction.x / length);
+	_yall = atanf(_direction.z / _direction.x);
+	_pitch = asinf(_direction.x / length);
 }
 
 void Camera::rotate(const glm::vec2& rotation)
@@ -39,9 +39,9 @@ void Camera::rotate(const glm::vec2& rotation)
 		_pitch = glm::radians(-89.9f);
 	}
 	
-	_direction.x = cos(_yall) * cos(_pitch);
-	_direction.y = sin(_pitch);
-	_direction.z = sin(_yall) * cos(_pitch);
+	_direction.x = cosf(_yall) * cosf(_pitch);
+	_direction.y = sinf(_pitch);
+	_direction.z = sinf(_yall) * cosf(_pitch);
 }
 
 void Camera::position(const glm::vec3& pos)
