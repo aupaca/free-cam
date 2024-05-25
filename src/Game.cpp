@@ -19,7 +19,6 @@ Game::Game()
 	
 	glm::mat4 proj = glm::perspective(glm::radians(45.f), anut::Engine::window->aspectRatio(), 0.1f, 100.f);
 	_renderer.setUniform("proj", proj);
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	
 	loadWorld();
 }
