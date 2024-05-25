@@ -16,12 +16,12 @@ Game::Game()
 	_camFingerId = -1;
 	_updateFrame = true;
 	_freeCam.lookAt({0.f, 0.f, -1.f});
-	loadWorld();
 	
 	glm::mat4 proj = glm::perspective(glm::radians(45.f), anut::Engine::window->aspectRatio(), 0.1f, 100.f);
 	_renderer.setUniform("proj", proj);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glEnable(GL_DEPTH_TEST);
+	
+	loadWorld();
 }
 
 Game::~Game()
@@ -45,7 +45,6 @@ void Game::loadWorld()
 void Game::draw()
 {
 	_updateFrame = false;
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	_renderer.setUniform("view", _freeCam.viewMatrix());
 	_renderer.draw();
 }

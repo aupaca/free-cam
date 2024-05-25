@@ -18,6 +18,11 @@ Renderer::Renderer(const char* vertShaderPath, const char* fragShaderPath)
 	_layout.indexBuffer(_indexArray);
 	_layout.vertexBuffer(0, _vertexArray, 3, GL_FLOAT, false, sizeof(Vertex), 0);
 	_layout.vertexBuffer(1, _vertexArray, 4, GL_FLOAT, false, sizeof(Vertex), sizeof(glm::vec3));
+	
+	glFrontFace(GL_CW);
+	glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 }
 
 Renderer::~Renderer()
@@ -39,6 +44,7 @@ void Renderer::setUniform(const char* name, const glm::mat4& value)
 
 void Renderer::draw()
 {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	_layout.drawIndexed(GL_TRIANGLES, _indexCount, GL_UNSIGNED_INT);
 }
 
