@@ -1,6 +1,6 @@
+#include "MainActivity.h"
 #include <ANUT/ANUT.h>
 #include <fstream>
-#include "MainActivity.h"
 
 void android_main(android_app* state)
 {

@@ -8,7 +8,7 @@
 class Renderer
 {
 public:
-	Renderer(const char* vertShaderPath, const char* fragShaderPath);
+	Renderer();
 	~Renderer();
 	
 	void loadData(const std::vector<Vertex>& vertexList, const std::vector<unsigned>& indexList);

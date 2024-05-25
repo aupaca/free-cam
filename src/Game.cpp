@@ -5,8 +5,7 @@
 #include "World.h"
 
 Game::Game()
-	: _renderer("./src/shader/base.vert", "./src/shader/base.frag")
-	, _freeCam({0.f, 0.f, 0.f})
+	: _freeCam({0.f, 0.f, 0.f})
 {
 	_sensivity.x = -glm::radians(90.f) / 500.f;
 	_sensivity.y = glm::radians(90.f) / 500.f;
@@ -16,10 +15,6 @@ Game::Game()
 	_camFingerId = -1;
 	_updateFrame = true;
 	_freeCam.lookAt({0.f, 0.f, -1.f});
-	
-	glm::mat4 proj = glm::perspective(glm::radians(45.f), anut::Engine::window->aspectRatio(), 0.1f, 100.f);
-	_renderer.setUniform("proj", proj);
-	
 	loadWorld();
 }
 

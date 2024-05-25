@@ -1,11 +1,12 @@
 #include "Renderer.h"
+#include <ANUT/ANUT.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Renderer::Renderer(const char* vertShaderPath, const char* fragShaderPath)
+Renderer::Renderer()
 	: _vertexArray(GL_ARRAY_BUFFER), _indexArray(GL_ELEMENT_ARRAY_BUFFER)
 {
-	if (!_glsl.compile(vertShaderPath, fragShaderPath))
+	if (!_glsl.compile("./src/shader/base.vert", "./src/shader/base.frag"))
 	{
 		// TODO: throw error
 		return;
@@ -18,6 +19,9 @@ Renderer::Renderer(const char* vertShaderPath, const char* fragShaderPath)
 	_layout.indexBuffer(_indexArray);
 	_layout.vertexBuffer(0, _vertexArray, 3, GL_FLOAT, false, sizeof(Vertex), 0);
 	_layout.vertexBuffer(1, _vertexArray, 4, GL_FLOAT, false, sizeof(Vertex), sizeof(glm::vec3));
+	
+	glm::mat4 proj = glm::perspective(glm::radians(45.f), anut::Engine::window->aspectRatio(), 0.1f, 100.f);
+	setUniform("proj", proj);
 	
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glFrontFace(GL_CW);
