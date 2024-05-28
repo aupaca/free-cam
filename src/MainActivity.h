@@ -10,8 +10,8 @@ class MainActivity : public anut::Activity
 public:
 	void onSurfaceCreated() override;
 	void onSurfaceDestroyed() override;
-	void onTouchEvent(const anut::MotionEvent& motion) override;
-	void onUpdate() override;
+	int onInputEvent(AInputEvent* event) override;
+	void onProcessApp() override;
 	
 private:
 	Game* _game;

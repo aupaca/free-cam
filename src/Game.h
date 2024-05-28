@@ -15,7 +15,7 @@ public:
 	
 	void draw();
 	void update(float dt);
-	void onTouchEvent(const anut::MotionEvent& motion);
+	void handleTouch(const anut::MotionEvent& motion);
 	
 private:
 	void loadWorld();

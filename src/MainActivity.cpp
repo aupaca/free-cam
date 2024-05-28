@@ -13,12 +13,18 @@ void MainActivity::onSurfaceDestroyed()
 	delete _game;
 }
 
-void MainActivity::onTouchEvent(const anut::MotionEvent& motion)
+int MainActivity::onInputEvent(AInputEvent* event)
 {
-	_game->onTouchEvent(motion);
+	if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION)
+	{
+		anut::MotionEvent motion(event);
+		_game->handleTouch(motion);
+		return 1;
+	}
+	return 0;
 }
 
-void MainActivity::onUpdate()
+void MainActivity::onProcessApp()
 {
 	if (_game->needRedraw())
 	{

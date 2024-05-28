@@ -52,7 +52,7 @@ void Game::update(float dt)
 	}
 }
 
-void Game::onTouchEvent(const anut::MotionEvent& motion)
+void Game::handleTouch(const anut::MotionEvent& motion)
 {
 	glm::vec2 touchPos = glm::vec2(motion.x, motion.y);
 	switch (motion.action)
