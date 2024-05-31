@@ -7,8 +7,8 @@
 Game::Game()
 	: _freeCam({0.f, 0.f, 0.f})
 {
-	_sensivity.x = -glm::radians(90.f) / 500.f;
-	_sensivity.y = glm::radians(90.f) / 500.f;
+	_sensivity.x = glm::radians(90.f) / 500.f;
+	_sensivity.y = -glm::radians(90.f) / 500.f;
 	_velocity = 5.f;
 	_halfScreenWidth = anut::Engine::window->width() / 2.f;
 	_runFingerId = -1;
@@ -76,7 +76,7 @@ void Game::handleTouch(const anut::MotionEvent& motion)
 		case anut::MotionEvent::ACTION_MOVE:
 			if (motion.id == _camFingerId)
 			{
-				_freeCam.rotate(_sensivity * (_prevTouchPos - touchPos));
+				_freeCam.rotate(_sensivity * (touchPos - _prevTouchPos));
 				_prevTouchPos = touchPos;
 				_updateFrame = true;
 			}
