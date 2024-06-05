@@ -18,7 +18,20 @@ int MainActivity::onInputEvent(AInputEvent* event)
 	if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION)
 	{
 		anut::MotionEvent motion(event);
-		_game->handleTouch(motion);
+		if (motion.action != anut::MotionEvent::ACTION_MOVE)
+		{
+			_game->handleTouch(motion);
+			return 1;
+		}
+		
+		int pointersCount = AMotionEvent_getPointerCount(event);
+		for (int i = 0; i < pointersCount; i++)
+		{
+			motion.id = AMotionEvent_getPointerId(event, i);
+			motion.x = AMotionEvent_getX(event, i);
+			motion.y = AMotionEvent_getY(event, i);
+			_game->handleTouch(motion);
+		}
 		return 1;
 	}
 	return 0;

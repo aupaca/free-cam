@@ -70,7 +70,6 @@ void Game::handleTouch(const anut::MotionEvent& motion)
 			{
 				_runFingerId = motion.id;
 			}
-			
 			break;
 			
 		case anut::MotionEvent::ACTION_MOVE:

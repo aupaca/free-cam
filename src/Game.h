@@ -12,7 +12,6 @@ public:
 	~Game();
 	
 	bool needRedraw() const;
-	
 	void draw();
 	void update(float dt);
 	void handleTouch(const anut::MotionEvent& motion);
